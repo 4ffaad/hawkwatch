@@ -1,0 +1,18 @@
+[project]
+name = "hawkwatch-ml"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "torch>=2.5",
+  "torchvision>=0.20",
+  "transformers>=4.46",
+  "accelerate>=1.1",
+  "evaluate>=0.4",
+  "scikit-learn>=1.5",
+  "av>=13",
+  "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+fire = ["ultralytics>=8.3"]
+fall = ["mediapipe>=0.10"]

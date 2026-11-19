@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "hawkwatch-dev",
+      "credentials": [{ "accessKey": "hawkwatch", "secretKey": "hawkwatch-dev-secret" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

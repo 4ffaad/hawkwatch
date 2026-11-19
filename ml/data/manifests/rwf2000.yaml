@@ -1,0 +1,9 @@
+name: RWF-2000
+source: https://zenodo.org/records/15687512
+project: https://github.com/mchengny/RWF2000-Video-Database-for-Violence-Detection
+licence: Research use only; no commercial use or redistribution without permission (verify on project page)
+allowed_uses: [training, evaluation]
+redistribute_data: false
+redistribute_weights: unknown  # check before publishing a checkpoint
+sha256: null  # fill after download
+notes: Source-recording grouping is not provided; record how groups were inferred.

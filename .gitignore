@@ -1,0 +1,40 @@
+# Data, weights, outputs — never commit
+data/*
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.ckpt
+runs/
+outputs/
+checkpoints/
+mlruns/
+wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Env and OS
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+!data/.gitkeep
