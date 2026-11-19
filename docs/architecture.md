@@ -1,5 +1,77 @@
 # Architecture
 
+## Upload and processing sequence
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor R as Reviewer
+    participant W as Dashboard
+    participant A as FastAPI
+    participant S as Object storage
+    participant P as PostgreSQL
+    participant K as Worker
+
+    R->>W: choose video
+    W->>A: POST /uploads (name, size, type)
+    A->>P: insert video (pending)
+    A-->>W: signed PUT URL
+    W->>S: PUT video bytes (direct)
+    W->>A: POST /uploads/{id}/complete
+    A->>S: HEAD object (size, ETag)
+    A->>P: video → uploaded + insert job (queued), one transaction
+    A-->>W: job id
+    loop every few seconds
+        K->>P: lease next job (SKIP LOCKED)
+    end
+    K->>S: download video
+    K->>K: clips → models → intervals
+    K->>P: insert incidents + job → completed (if lease held)
+    W->>A: GET /jobs/{id}, /incidents (polling)
+    R->>W: confirm / dismiss
+    W->>A: POST /incidents/{id}/review
+    A->>P: insert review
+```
+
+## Data model
+
+```mermaid
+erDiagram
+    VIDEOS ||--o{ JOBS : "processed by"
+    JOBS ||--o{ INCIDENTS : produces
+    INCIDENTS ||--o{ REVIEWS : "reviewed in"
+    VIDEOS {
+        uuid id PK
+        string owner_id
+        string object_key
+        string object_etag
+        enum status "pending | uploaded"
+    }
+    JOBS {
+        uuid id PK
+        uuid video_id FK
+        enum status "queued | running | completed | failed"
+        int attempts
+        uuid lease_token
+        timestamp lease_until
+    }
+    INCIDENTS {
+        uuid id PK
+        uuid job_id FK
+        enum category
+        int start_ms
+        int end_ms
+        float score
+        string model_version
+    }
+    REVIEWS {
+        uuid id PK
+        uuid incident_id FK
+        string reviewer_id
+        enum decision "confirmed | dismissed"
+    }
+```
+
 ## Request flow
 
 1. The dashboard calls `POST /uploads` with filename, size and content type. The API creates a `videos` row (`pending`) and returns a short-lived signed `PUT` URL.

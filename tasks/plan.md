@@ -1,6 +1,6 @@
 # HawkWatch implementation plan
 
-Build a private, upload-only incident review application with timestamped evidence and human decisions. Start with possible fights, then add visible fire and smoke, then a fall detection pilot. Use the [TreeHacks project](https://github.com/nf-projects/Hawkwatch) as a reference for the workflow. Keep the first demo limited to authorized footage, authenticated reviewers, and in-app alerts.
+Build a private, upload-only incident review application with timestamped evidence and human decisions. Start with possible fights, then add visible fire and smoke, then a fall detection pilot. Keep the first demo limited to authorized footage, authenticated reviewers, and in-app alerts.
 
 ## Architecture
 
